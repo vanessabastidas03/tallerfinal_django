@@ -1,0 +1,52 @@
+<!-- templates/calificaciones/eliminar.html -->
+{% extends 'calificaciones/base.html' %}
+
+{% block title %}
+    Eliminar Calificación
+{% endblock %}
+
+{% block content %}
+
+<div class='row justify-content-center'>
+    <div class='col-md-6'>
+        <div class='card border-danger'>
+
+            <div class='card-header bg-danger text-white'>
+                <h5 class='mb-0'> Confirmar Eliminación</h5>
+            </div>
+
+            <div class='card-body'>
+
+                <p class='fs-5'>
+                    ¿Estás seguro de que deseas eliminar la calificación de:
+                    <strong>{{ calificacion.nombre_estudiante }}</strong>?
+                </p>
+
+                <p class='text-muted'>
+                    Asignatura: {{ calificacion.asignatura }}
+                </p>
+
+                <p class='text-muted'>
+                    Esta acción no se puede deshacer.
+                </p>
+
+                <form method='POST'>
+                    {% csrf_token %}
+
+                    <div class='d-flex gap-2'>
+                        <button type='submit' class='btn btn-danger'>
+                            Sí, eliminar
+                        </button>
+                        <a href='{% url "listar" %}' class='btn btn-secondary'>
+                            Cancelar
+                        </a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,79 @@
+<!-- templates/calificaciones/promedio_general.html -->
+{% extends 'calificaciones/base.html' %}
+
+{% block title %}Promedio General{% endblock %}
+
+{% block content %}
+
+<div class='row justify-content-center'>
+    <div class='col-md-8'>
+
+        <div class='card mb-4 text-center'>
+            <div class='card-header' style='background:#1F4E79; color:white;'>
+                <h4 class='mb-0'>Promedio General de Todos los Estudiantes</h4>
+            </div>
+            <div class='card-body py-5'>
+                {% if promedio_general %}
+                    {% if promedio_general >= 3.5 %}
+                        <h1 class='display-1 fw-bold text-success'>{{ promedio_general|floatformat:2 }}</h1>
+                        <span class='badge bg-success fs-6 mt-2'>Rendimiento Alto</span>
+                    {% elif promedio_general >= 3.0 %}
+                        <h1 class='display-1 fw-bold text-warning'>{{ promedio_general|floatformat:2 }}</h1>
+                        <span class='badge bg-warning text-dark fs-6 mt-2'>Rendimiento Medio</span>
+                    {% else %}
+                        <h1 class='display-1 fw-bold text-danger'>{{ promedio_general|floatformat:2 }}</h1>
+                        <span class='badge bg-danger fs-6 mt-2'>Rendimiento Bajo</span>
+                    {% endif %}
+                    <p class='text-muted mt-3'>Calculado sobre {{ calificaciones.count }} registro(s)</p>
+                {% else %}
+                    <p class='text-muted fs-5'>No hay calificaciones registradas aun.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if calificaciones %}
+            <div class='card'>
+                <div class='card-header' style='background:#2E75B6; color:white;'>
+                    <h5 class='mb-0'>Detalle por Estudiante</h5>
+                </div>
+                <div class='card-body p-0'>
+                    <div class='table-responsive'>
+                        <table class='table table-sm table-striped mb-0'>
+                            <thead>
+                                <tr>
+                                    <th>Estudiante</th>
+                                    <th>Asignatura</th>
+                                    <th>Promedio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for c in calificaciones %}
+                                    <tr>
+                                        <td>{{ c.nombre_estudiante }}</td>
+                                        <td>{{ c.asignatura }}</td>
+                                        <td>
+                                            {% if c.promedio >= 3.5 %}
+                                                <span class='badge bg-success'>{{ c.promedio }}</span>
+                                            {% elif c.promedio >= 3.0 %}
+                                                <span class='badge bg-warning text-dark'>{{ c.promedio }}</span>
+                                            {% else %}
+                                                <span class='badge bg-danger'>{{ c.promedio }}</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class='text-center mt-4'>
+            <a href='{% url "listar" %}' class='btn btn-secondary'>&#8592; Ver todas las calificaciones</a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
